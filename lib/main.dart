@@ -1,4 +1,61 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+
+List<String> consonants = [
+  'b',
+  'c',
+  'ch',
+  'cl',
+  'cr',
+  'd',
+  'f',
+  'g',
+  'gh',
+  'gl',
+  'gr',
+  'h',
+  'j',
+  'k',
+  'l',
+  'm',
+  'mn',
+  'n',
+  'p',
+  'ph',
+  'pl',
+  'pr',
+  'q',
+  'qu',
+  'r',
+  's',
+  'sc',
+  'sch',
+  'scr',
+  'sh',
+  'sl',
+  'sp',
+  'spl',
+  'spr',
+  'st',
+  'str',
+  't',
+  'th',
+  'thr',
+  'tr',
+  'v',
+  'w',
+  'x',
+  'y',
+  'z',
+];
+List<String> vowels = [
+  'a',
+  'e',
+  'i',
+  'o',
+  'u'
+];
+var random = Random();
 
 void main() {
   runApp(NameGiver());
@@ -26,12 +83,38 @@ class NameGiverHome extends StatefulWidget {
 }
 
 class _NameGiverState extends State<NameGiverHome> {
-  int _counter = 0;
+  List<Text> _names = [];
 
   void _incrementCounter() {
     setState(() {
-      _counter++;
+      _names.add(_generateName());
     });
+  }
+
+  Text _generateName() {
+    double done = 1;
+    String name = '';
+
+    while (random.nextDouble() < done || name.length < 3) {
+      String onset = consonants[random.nextInt(consonants.length)];
+      String nucleus = vowels[random.nextInt(vowels.length)];
+      String coda = consonants[random.nextInt(consonants.length)];
+
+      if (random.nextInt(2) == 0) {
+        name += onset;
+      }
+
+      name += nucleus;
+      if (random.nextInt(4) < 3) {
+        name += coda;
+      }
+
+      done *= 0.67;
+    }
+
+    return Text(
+      '${name[0].toUpperCase()}${name.substring(1)}'
+    );
   }
 
   @override
@@ -43,15 +126,7 @@ class _NameGiverState extends State<NameGiverHome> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+          children: _names,
         ),
       ),
       floatingActionButton: FloatingActionButton(
