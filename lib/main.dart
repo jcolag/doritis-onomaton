@@ -113,7 +113,11 @@ class _NameGiverState extends State<NameGiverHome> {
     }
 
     return Text(
-      '${name[0].toUpperCase()}${name.substring(1)}'
+      '${name[0].toUpperCase()}${name.substring(1)}',
+      style: TextStyle(
+        fontSize: 36.0,
+        height: 1.6,
+      ),
     );
   }
 
