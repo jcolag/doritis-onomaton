@@ -85,7 +85,7 @@ class NameGiverHome extends StatefulWidget {
 class _NameGiverState extends State<NameGiverHome> {
   List<Text> _names = [];
 
-  void _incrementCounter() {
+  void _addName() {
     setState(() {
       _names.add(_generateName());
     });
@@ -134,8 +134,8 @@ class _NameGiverState extends State<NameGiverHome> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _addName,
+        tooltip: 'Add New Name',
         child: Icon(Icons.add),
       ),
     );
