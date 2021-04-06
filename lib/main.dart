@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import "package:unorm_dart/unorm_dart.dart" as unorm;
 
 List<String> consonants = [
   'b',
@@ -67,6 +68,7 @@ class NameGiver extends StatelessWidget {
     return MaterialApp(
       title: 'Doritís Onomáton',
       theme: ThemeData(
+        fontFamily: 'NotoSans',
         primarySwatch: Colors.orange,
       ),
       home: NameGiverHome(title: 'Doritís Onomáton Name List'),
