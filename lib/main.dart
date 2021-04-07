@@ -114,6 +114,27 @@ class _NameGiverState extends State<NameGiverHome> {
       done *= 0.67;
     }
 
+    double diacritical = 0.67;
+
+    name = '${name[0].toUpperCase()}${name.substring(1)}';
+    while (random.nextDouble() < diacritical) {
+      var index = 1 + random.nextInt(name.length - 1);
+      var est = random.nextInt(97);
+      var mark = est < 70
+        ? 0x0300 + random.nextInt(0x0070)
+        : 0x1DC0 + random.nextInt(0x0027);
+
+      name = unorm.nfc(
+        unorm.nfd(name)
+          .replaceRange(
+            index, index, unorm.nfd(
+              String.fromCharCode(mark)
+            )
+          )
+        );
+      diacritical *= 0.67;
+    }
+
     return Text(
       '${name[0].toUpperCase()}${name.substring(1)}',
       style: TextStyle(
