@@ -93,6 +93,25 @@ class _NameGiverState extends State<NameGiverHome> {
     });
   }
 
+  void _replaceName() {
+    if (_names.length == 0) {
+      return;
+    }
+
+    _names.removeLast();
+    _addName();
+  }
+
+  void _removeName() {
+    if (_names.length == 0) {
+      return;
+    }
+
+    setState(() {
+      _names.removeLast();
+    });
+  }
+
   Text _generateName() {
     double done = 1;
     String name = '';
@@ -156,10 +175,25 @@ class _NameGiverState extends State<NameGiverHome> {
           children: _names,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addName,
-        tooltip: 'Add New Name',
-        child: Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: _removeName,
+            tooltip: 'Forget Last Name',
+            child: Icon(Icons.not_interested),
+          ),
+          FloatingActionButton(
+            onPressed: _replaceName,
+            tooltip: 'Replace Last Name',
+            child: Icon(Icons.refresh_sharp),
+          ),
+          FloatingActionButton(
+            onPressed: _addName,
+            tooltip: 'Add New Name',
+            child: Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }
