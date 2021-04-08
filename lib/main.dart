@@ -87,7 +87,7 @@ class NameGiverHome extends StatefulWidget {
 class _NameGiverState extends State<NameGiverHome> {
   final ScrollController _scrollController = ScrollController();
   bool _needsScroll = false;
-  List<Text> _names = [];
+  List<String> _names = [];
 
   void _scrollToEnd() async {
     _scrollController.animateTo(
@@ -124,7 +124,7 @@ class _NameGiverState extends State<NameGiverHome> {
     });
   }
 
-  Text _generateName() {
+  String _generateName() {
     double done = 1;
     String name = '';
 
@@ -166,13 +166,7 @@ class _NameGiverState extends State<NameGiverHome> {
       diacritical *= 0.67;
     }
 
-    return Text(
-      name,
-      style: TextStyle(
-        fontSize: 36.0,
-        height: 1.6,
-      ),
-    );
+    return name;
   }
 
   @override
@@ -187,14 +181,42 @@ class _NameGiverState extends State<NameGiverHome> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: _names,
-          ),
-          controller: _scrollController,
-        ),
+      body: ListView.builder(
+        controller: _scrollController,
+        itemBuilder: (context, index) {
+          return Dismissible(
+            background: Container(color: Colors.red),
+            child: ListTile(
+              title: Text(
+                _names[index],
+                style: TextStyle(
+                  fontSize: 48.0,
+                  height: 1.6,
+                ),
+              )
+            ),
+            key: Key(_names[index]),
+            onDismissed: (direction) {
+              setState(() {
+                _names.removeAt(index);
+              });
+              ScaffoldMessenger
+                .of(context)
+                .showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      '${_names[index]} dismissed to the ${direction}',
+                      style: TextStyle(
+                        fontFamily: 'NotoSans',
+                        fontSize: 24.0,
+                      ),
+                    )
+                  )
+                );
+            },
+          );
+        },
+        itemCount: _names.length,
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
