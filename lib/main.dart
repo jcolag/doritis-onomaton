@@ -85,9 +85,21 @@ class NameGiverHome extends StatefulWidget {
 }
 
 class _NameGiverState extends State<NameGiverHome> {
+  final ScrollController _scrollController = ScrollController();
+  bool _needsScroll = false;
   List<Text> _names = [];
 
+  void _scrollToEnd() async {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds: 200),
+      curve: Curves.easeInOut
+    );
+    _needsScroll = false;
+  }
+
   void _addName() {
+    _needsScroll = true;
     setState(() {
       _names.add(_generateName());
     });
@@ -155,7 +167,7 @@ class _NameGiverState extends State<NameGiverHome> {
     }
 
     return Text(
-      '${name[0].toUpperCase()}${name.substring(1)}',
+      name,
       style: TextStyle(
         fontSize: 36.0,
         height: 1.6,
@@ -165,14 +177,23 @@ class _NameGiverState extends State<NameGiverHome> {
 
   @override
   Widget build(BuildContext context) {
+    if (_needsScroll) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _scrollToEnd()
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: _names,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: _names,
+          ),
+          controller: _scrollController,
         ),
       ),
       floatingActionButton: Row(
