@@ -185,7 +185,7 @@ class _NameGiverState extends State<NameGiverHome> {
         controller: _scrollController,
         itemBuilder: (context, index) {
           return Dismissible(
-            background: Container(color: Colors.red),
+            background: Container(color: Colors.lightBlue),
             child: ListTile(
               title: Text(
                 _names[index],
@@ -193,6 +193,7 @@ class _NameGiverState extends State<NameGiverHome> {
                   fontSize: 48.0,
                   height: 1.6,
                 ),
+                textAlign: TextAlign.center,
               )
             ),
             key: Key(_names[index]),
