@@ -198,22 +198,47 @@ class _NameGiverState extends State<NameGiverHome> {
             ),
             key: Key(_names[index]),
             onDismissed: (direction) {
-              setState(() {
-                _names.removeAt(index);
-              });
-              ScaffoldMessenger
-                .of(context)
-                .showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      '${_names[index]} dismissed to the ${direction}',
-                      style: TextStyle(
-                        fontFamily: 'NotoSans',
-                        fontSize: 24.0,
-                      ),
+              if (direction == DismissDirection.startToEnd) {
+                String name = _names[index];
+
+                setState(() {
+                  _names.removeAt(index);
+                });
+                ScaffoldMessenger
+                  .of(context)
+                  .showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        '${name} deleted.',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontFamily: 'NotoSans',
+                          fontSize: 24.0,
+                        ),
+                      )
                     )
-                  )
-                );
+                  );
+              } else if (direction == DismissDirection.endToStart) {
+                String name = _names[index];
+
+                setState(() {
+                  _names.removeAt(index);
+                });
+                ScaffoldMessenger
+                  .of(context)
+                  .showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        '${name} saved to server.',
+                        style: TextStyle(
+                          color: Colors.lightGreen,
+                          fontFamily: 'NotoSans',
+                          fontSize: 24.0,
+                        ),
+                      )
+                    )
+                  );
+              }
             },
           );
         },
