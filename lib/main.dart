@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import "package:unorm_dart/unorm_dart.dart" as unorm;
 
 List<String> consonants = [
@@ -220,6 +221,9 @@ class _NameGiverState extends State<NameGiverHome> {
                   );
               } else if (direction == DismissDirection.endToStart) {
                 String name = _names[index];
+                const String baseUrl = 'http://localhost:8080/';
+                var payload = { name: name };
+                var response = http.post(baseUrl, body: payload);
 
                 setState(() {
                   _names.removeAt(index);
