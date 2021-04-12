@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
 import "package:unorm_dart/unorm_dart.dart" as unorm;
 
@@ -222,7 +221,7 @@ class _NameGiverState extends State<NameGiverHome> {
                   );
               } else if (direction == DismissDirection.endToStart) {
                 String name = _names[index];
-                const String baseUrl = 'http://localhost:8080/';
+                const String baseUrl = 'https://ptsv2.com/t/dkz4n-1618189548/post';
                 var payload = { name: name };
                 var response = http.post(baseUrl, body: payload);
 
