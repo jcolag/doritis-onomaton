@@ -3,60 +3,64 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import "package:unorm_dart/unorm_dart.dart" as unorm;
 
-List<String> consonants = [
-  'b',
-  'c',
-  'ch',
-  'cl',
-  'cr',
-  'd',
-  'f',
-  'g',
-  'gh',
-  'gl',
-  'gr',
-  'h',
-  'j',
-  'k',
-  'l',
-  'm',
-  'mn',
-  'n',
-  'p',
-  'ph',
-  'pl',
-  'pr',
-  'q',
-  'qu',
-  'r',
-  's',
-  'sc',
-  'sch',
-  'scr',
-  'sh',
-  'sl',
-  'sp',
-  'spl',
-  'spr',
-  'st',
-  'str',
-  't',
-  'th',
-  'thr',
-  'tr',
-  'v',
-  'w',
-  'x',
-  'y',
-  'z',
-];
-List<String> vowels = [
-  'a',
-  'e',
-  'i',
-  'o',
-  'u'
-];
+const consonants = {
+  'Latin': [
+    'b',
+    'c',
+    'ch',
+    'cl',
+    'cr',
+    'd',
+    'f',
+    'g',
+    'gh',
+    'gl',
+    'gr',
+    'h',
+    'j',
+    'k',
+    'l',
+    'm',
+    'mn',
+    'n',
+    'p',
+    'ph',
+    'pl',
+    'pr',
+    'q',
+    'qu',
+    'r',
+    's',
+    'sc',
+    'sch',
+    'scr',
+    'sh',
+    'sl',
+    'sp',
+    'spl',
+    'spr',
+    'st',
+    'str',
+    't',
+    'th',
+    'thr',
+    'tr',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+  ],
+};
+const vowels = {
+  'Latin': [
+    'a',
+    'e',
+    'i',
+    'o',
+    'u'
+  ],
+};
 var random = Random();
 
 void main() {
@@ -88,6 +92,7 @@ class NameGiverHome extends StatefulWidget {
 class _NameGiverState extends State<NameGiverHome> {
   final ScrollController _scrollController = ScrollController();
   bool _needsScroll = false;
+  String _chosenLanguage = 'Latin';
   List<String> _names = [];
   List<String> _savedNames = [];
 
@@ -131,9 +136,15 @@ class _NameGiverState extends State<NameGiverHome> {
     String name = '';
 
     while (random.nextDouble() < done || name.length < 3) {
-      String onset = consonants[random.nextInt(consonants.length)];
-      String nucleus = vowels[random.nextInt(vowels.length)];
-      String coda = consonants[random.nextInt(consonants.length)];
+      String onset = consonants[_chosenLanguage][
+        random.nextInt(consonants[_chosenLanguage].length)
+      ];
+      String nucleus = vowels[_chosenLanguage][
+        random.nextInt(vowels[_chosenLanguage].length)
+      ];
+      String coda = consonants[_chosenLanguage][
+        random.nextInt(consonants[_chosenLanguage].length)
+      ];
 
       if (random.nextInt(2) == 0) {
         name += onset;
