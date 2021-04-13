@@ -89,6 +89,7 @@ class _NameGiverState extends State<NameGiverHome> {
   final ScrollController _scrollController = ScrollController();
   bool _needsScroll = false;
   List<String> _names = [];
+  List<String> _savedNames = [];
 
   void _scrollToEnd() async {
     _scrollController.animateTo(
@@ -227,6 +228,7 @@ class _NameGiverState extends State<NameGiverHome> {
 
                 setState(() {
                   _names.removeAt(index);
+                  _savedNames.add(name);
                 });
                 ScaffoldMessenger
                   .of(context)
