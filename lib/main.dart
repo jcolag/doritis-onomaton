@@ -193,6 +193,29 @@ class _NameGiverState extends State<NameGiverHome> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.language),
+            onPressed: () {
+            },
+          ),
+          DropdownButton<String>(
+            value: _chosenLanguage,
+            items: <String>[
+              'Latin',
+            ].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (String value) {
+              setState(() {
+                _chosenLanguage = value;
+              });
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         controller: _scrollController,
