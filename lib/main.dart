@@ -201,9 +201,7 @@ class _NameGiverState extends State<NameGiverHome> {
           ),
           DropdownButton<String>(
             value: _chosenLanguage,
-            items: <String>[
-              'Latin',
-            ].map<DropdownMenuItem<String>>((String value) {
+            items: vowels.keys.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
