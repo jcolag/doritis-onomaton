@@ -195,6 +195,7 @@ class NameGiverHome extends StatefulWidget {
 class _NameGiverState extends State<NameGiverHome> {
   final ScrollController _scrollController = ScrollController();
   bool _needsScroll = false;
+  bool _useDiacriticals = true;
   String _chosenLanguage = 'Latin';
   List<String> _names = [];
   List<String> _savedNames = [];
@@ -264,22 +265,24 @@ class _NameGiverState extends State<NameGiverHome> {
     double diacritical = 0.67;
 
     name = '${name[0].toUpperCase()}${name.substring(1)}';
-    while (random.nextDouble() < diacritical) {
-      var index = 1 + random.nextInt(name.length - 1);
-      var est = random.nextInt(97);
-      var mark = est < 70
-        ? 0x0300 + random.nextInt(0x0070)
-        : 0x1DC0 + random.nextInt(0x0027);
+    if (_useDiacriticals) {
+      while (random.nextDouble() < diacritical) {
+        var index = 1 + random.nextInt(name.length - 1);
+        var est = random.nextInt(97);
+        var mark = est < 70
+          ? 0x0300 + random.nextInt(0x0070)
+          : 0x1DC0 + random.nextInt(0x0027);
 
-      name = unorm.nfc(
-        unorm.nfd(name)
-          .replaceRange(
-            index, index, unorm.nfd(
-              String.fromCharCode(mark)
+        name = unorm.nfc(
+          unorm.nfd(name)
+            .replaceRange(
+              index, index, unorm.nfd(
+                String.fromCharCode(mark)
+              )
             )
-          )
-        );
-      diacritical *= 0.67;
+          );
+        diacritical *= 0.67;
+      }
     }
 
     return name;
