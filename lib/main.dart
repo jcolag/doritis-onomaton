@@ -300,11 +300,6 @@ class _NameGiverState extends State<NameGiverHome> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
-          IconButton(
-            icon: Icon(Icons.language),
-            onPressed: () {
-            },
-          ),
           DropdownButton<String>(
             value: _chosenLanguage,
             items: vowels.keys.map<DropdownMenuItem<String>>((String value) {
@@ -318,6 +313,23 @@ class _NameGiverState extends State<NameGiverHome> {
                 _chosenLanguage = value;
               });
             },
+          ),
+          PopupMenuButton<int>(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  onChanged: (value) {
+                    setState(() {
+                      _useDiacriticals = !_useDiacriticals;
+                    });
+                    Navigator.pop(context);
+                  },
+                  title: Text('Use diacritical marks'),
+                  value: _useDiacriticals,
+                ),
+              ),
+            ],
           ),
         ],
       ),
