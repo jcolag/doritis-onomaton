@@ -330,7 +330,25 @@ class _NameGiverState extends State<NameGiverHome> {
                 ),
               ),
               PopupMenuItem(
-                child:  Text('About ${widget.title}'),
+                child:  TextButton(
+                  child: Text('About ${widget.title}'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    showAboutDialog(
+                      context: context,
+                      applicationIcon: FlutterLogo(),
+                      applicationName: widget.title,
+                      applicationVersion: '1.0.0',
+                      applicationLegalese: '©2021 Colagioia Industries',
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Text('Source code available under the GPLv3 at https://github.com/jcolag/doritis-onomaton'),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ],
           ),
