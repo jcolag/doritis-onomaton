@@ -179,7 +179,7 @@ class NameGiver extends StatelessWidget {
         fontFamily: 'NotoSans',
         primarySwatch: Colors.orange,
       ),
-      home: NameGiverHome(title: 'Doritís Onomáton Name List'),
+      home: NameGiverHome(title: 'Doritís Onomáton Namer'),
     );
   }
 }
@@ -328,6 +328,9 @@ class _NameGiverState extends State<NameGiverHome> {
                   title: Text('Use diacritical marks'),
                   value: _useDiacriticals,
                 ),
+              ),
+              PopupMenuItem(
+                child:  Text('About ${widget.title}'),
               ),
             ],
           ),
