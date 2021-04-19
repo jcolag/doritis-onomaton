@@ -348,7 +348,17 @@ class _NameGiverState extends State<NameGiverHome> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(top: 15),
-                          child: Text('Source code available under the GPLv3 at https://github.com/jcolag/doritis-onomaton'),
+                          child: Text('The Giver of (Mediocre) Names'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Text('Source code available under the GPLv3 at'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Text(
+                            'https://github.com/jcolag/doritis-onomaton'
+                          ),
                         ),
                       ],
                     );
