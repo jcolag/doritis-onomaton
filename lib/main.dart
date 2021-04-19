@@ -331,7 +331,12 @@ class _NameGiverState extends State<NameGiverHome> {
               ),
               PopupMenuItem(
                 child:  TextButton(
-                  child: Text('About ${widget.title}'),
+                  child: Text(
+                    'About ${widget.title}',
+                    style: TextStyle(
+                      color: Colors.black,
+                    )
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                     showAboutDialog(
