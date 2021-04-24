@@ -229,7 +229,7 @@ class _NameGiverState extends State<NameGiverHome> {
             ),
             key: Key(_names[index]),
             onDismissed: (direction) {
-              if (direction == DismissDirection.startToEnd) {
+              if (direction == DismissDirection.endToStart) {
                 String name = _names[index];
 
                 setState(() {
@@ -249,7 +249,7 @@ class _NameGiverState extends State<NameGiverHome> {
                       )
                     )
                   );
-              } else if (direction == DismissDirection.endToStart) {
+              } else if (direction == DismissDirection.startToEnd) {
                 String name = _names[index];
                 const String baseUrl = 'https://ptsv2.com/t/dkz4n-1618189548/post';
                 var payload = { name: name };
