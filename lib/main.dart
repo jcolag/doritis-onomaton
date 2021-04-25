@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import "package:unorm_dart/unorm_dart.dart" as unorm;
 
@@ -215,65 +216,70 @@ class _NameGiverState extends State<NameGiverHome> {
       body: ListView.builder(
         controller: _scrollController,
         itemBuilder: (context, index) {
-          return Dismissible(
-            background: Container(color: Colors.lightBlue),
-            child: ListTile(
-              title: Text(
-                _names[index],
-                style: TextStyle(
-                  fontSize: 48.0,
-                  height: 1.6,
-                ),
-                textAlign: TextAlign.center,
-              )
+          return GestureDetector(
+            child: Dismissible(
+              background: Container(color: Colors.lightBlue),
+              child: ListTile(
+                title: Text(
+                  _names[index],
+                  style: TextStyle(
+                    fontSize: 48.0,
+                    height: 1.6,
+                  ),
+                  textAlign: TextAlign.center,
+                )
+              ),
+              key: Key(_names[index]),
+              onDismissed: (direction) {
+                if (direction == DismissDirection.endToStart) {
+                  String name = _names[index];
+
+                  setState(() {
+                    _names.removeAt(index);
+                  });
+                  ScaffoldMessenger
+                    .of(context)
+                    .showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '${name} deleted.',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontFamily: 'NotoSans',
+                            fontSize: 24.0,
+                          ),
+                        )
+                      )
+                    );
+                } else if (direction == DismissDirection.startToEnd) {
+                  String name = _names[index];
+                  const String baseUrl = 'https://ptsv2.com/t/dkz4n-1618189548/post';
+                  var payload = { name: name };
+                  var response = http.post(baseUrl, body: payload);
+
+                  setState(() {
+                    _names.removeAt(index);
+                    _savedNames.add(name);
+                  });
+                  ScaffoldMessenger
+                    .of(context)
+                    .showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '${name} saved to server.',
+                          style: TextStyle(
+                            color: Colors.lightGreen,
+                            fontFamily: 'NotoSans',
+                            fontSize: 24.0,
+                          ),
+                        )
+                      )
+                    );
+                }
+              },
             ),
-            key: Key(_names[index]),
-            onDismissed: (direction) {
-              if (direction == DismissDirection.endToStart) {
-                String name = _names[index];
-
-                setState(() {
-                  _names.removeAt(index);
-                });
-                ScaffoldMessenger
-                  .of(context)
-                  .showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        '${name} deleted.',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontFamily: 'NotoSans',
-                          fontSize: 24.0,
-                        ),
-                      )
-                    )
-                  );
-              } else if (direction == DismissDirection.startToEnd) {
-                String name = _names[index];
-                const String baseUrl = 'https://ptsv2.com/t/dkz4n-1618189548/post';
-                var payload = { name: name };
-                var response = http.post(baseUrl, body: payload);
-
-                setState(() {
-                  _names.removeAt(index);
-                  _savedNames.add(name);
-                });
-                ScaffoldMessenger
-                  .of(context)
-                  .showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        '${name} saved to server.',
-                        style: TextStyle(
-                          color: Colors.lightGreen,
-                          fontFamily: 'NotoSans',
-                          fontSize: 24.0,
-                        ),
-                      )
-                    )
-                  );
-              }
+            onTap: () {
+              Clipboard.setData(new ClipboardData(text: _names[index]));
             },
           );
         },
