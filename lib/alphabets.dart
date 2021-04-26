@@ -315,6 +315,9 @@ const vowels = {
     'ㅡ',
     'ㅣ',
   ],
+  // Some vowels refuse to be rendered properly, so I've commented
+  // them out until I can figure out if I have the wrong characters
+  // or need the font improved.
   'Arabic': [
     'ً ',
     'ٌ ',
@@ -338,6 +341,9 @@ const vowels = {
 //    'ٞ ',
 //    'ٟ ',
   ],
+  // Some vowels refuse to be rendered properly, so I've commented
+  // them out until I can figure out if I have the wrong characters
+  // or need the font improved.
   'Hebrew': [
     'א',
     'ע',
