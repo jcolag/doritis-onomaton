@@ -179,6 +179,19 @@ class _NameGiverState extends State<NameGiverHome> {
                 ),
               ),
               PopupMenuItem(
+                child: CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  onChanged: (value) {
+                    setState(() {
+                      _showSaved = !_showSaved;
+                    });
+                    Navigator.pop(context);
+                  },
+                  title: Text('Show Saved Names'),
+                  value: _showSaved,
+                ),
+              ),
+              PopupMenuItem(
                 child:  TextButton(
                   child: Text(
                     'About ${widget.title}',
