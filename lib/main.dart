@@ -40,6 +40,7 @@ class _NameGiverState extends State<NameGiverHome> {
   final ScrollController _scrollController = ScrollController();
   bool _needsScroll = false;
   bool _useDiacriticals = true;
+  bool _showSaved = false;
   String _chosenLanguage = 'Latin';
   List<String> _names = [];
   List<String> _savedNames = [];
@@ -134,11 +135,15 @@ class _NameGiverState extends State<NameGiverHome> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> nameSource;
+
     if (_needsScroll) {
       WidgetsBinding.instance.addPostFrameCallback(
         (_) => _scrollToEnd()
       );
     }
+
+    nameSource = _showSaved ? _savedNames : _names;
 
     return Scaffold(
       appBar: AppBar(
@@ -221,7 +226,7 @@ class _NameGiverState extends State<NameGiverHome> {
               background: Container(color: Colors.lightBlue),
               child: ListTile(
                 title: Text(
-                  _names[index],
+                  nameSource[index],
                   style: TextStyle(
                     fontSize: 48.0,
                     height: 1.6,
@@ -229,13 +234,13 @@ class _NameGiverState extends State<NameGiverHome> {
                   textAlign: TextAlign.center,
                 )
               ),
-              key: Key(_names[index]),
+              key: Key(nameSource[index]),
               onDismissed: (direction) {
                 if (direction == DismissDirection.endToStart) {
-                  String name = _names[index];
+                  String name = nameSource[index];
 
                   setState(() {
-                    _names.removeAt(index);
+                    nameSource.removeAt(index);
                   });
                   ScaffoldMessenger
                     .of(context)
@@ -252,13 +257,13 @@ class _NameGiverState extends State<NameGiverHome> {
                       )
                     );
                 } else if (direction == DismissDirection.startToEnd) {
-                  String name = _names[index];
+                  String name = nameSource[index];
                   const String baseUrl = 'https://ptsv2.com/t/dkz4n-1618189548/post';
                   var payload = { name: name };
                   var response = http.post(baseUrl, body: payload);
 
                   setState(() {
-                    _names.removeAt(index);
+                    nameSource.removeAt(index);
                     _savedNames.add(name);
                   });
                   ScaffoldMessenger
@@ -279,11 +284,11 @@ class _NameGiverState extends State<NameGiverHome> {
               },
             ),
             onTap: () {
-              Clipboard.setData(new ClipboardData(text: _names[index]));
+              Clipboard.setData(new ClipboardData(text: nameSource[index]));
             },
           );
         },
-        itemCount: _names.length,
+        itemCount: nameSource.length,
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
