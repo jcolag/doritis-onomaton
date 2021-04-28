@@ -234,9 +234,8 @@ class _NameGiverState extends State<NameGiverHome> {
       body: ListView.builder(
         controller: _scrollController,
         itemBuilder: (context, index) {
-          return GestureDetector(
-            child: Dismissible(
-              background: Container(color: Colors.lightBlue),
+          return _showSaved ?
+            GestureDetector(
               child: ListTile(
                 title: Text(
                   nameSource[index],
@@ -247,59 +246,76 @@ class _NameGiverState extends State<NameGiverHome> {
                   textAlign: TextAlign.center,
                 )
               ),
-              key: Key(nameSource[index]),
-              onDismissed: (direction) {
-                if (direction == DismissDirection.endToStart) {
-                  String name = nameSource[index];
-
-                  setState(() {
-                    nameSource.removeAt(index);
-                  });
-                  ScaffoldMessenger
-                    .of(context)
-                    .showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '${name} deleted.',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontFamily: 'NotoSans',
-                            fontSize: 24.0,
-                          ),
-                        )
-                      )
-                    );
-                } else if (direction == DismissDirection.startToEnd) {
-                  String name = nameSource[index];
-                  const String baseUrl = 'https://ptsv2.com/t/dkz4n-1618189548/post';
-                  var payload = { name: name };
-                  var response = http.post(baseUrl, body: payload);
-
-                  setState(() {
-                    nameSource.removeAt(index);
-                    _savedNames.add(name);
-                  });
-                  ScaffoldMessenger
-                    .of(context)
-                    .showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '${name} saved to server.',
-                          style: TextStyle(
-                            color: Colors.lightGreen,
-                            fontFamily: 'NotoSans',
-                            fontSize: 24.0,
-                          ),
-                        )
-                      )
-                    );
-                }
+              onTap: () {
+                Clipboard.setData(new ClipboardData(text: nameSource[index]));
               },
-            ),
-            onTap: () {
-              Clipboard.setData(new ClipboardData(text: nameSource[index]));
-            },
-          );
+            ) :
+            GestureDetector(
+              child: Dismissible(
+                background: Container(color: Colors.lightBlue),
+                child: ListTile(
+                  title: Text(
+                    nameSource[index],
+                    style: TextStyle(
+                      fontSize: 48.0,
+                      height: 1.6,
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+                ),
+                key: Key(nameSource[index]),
+                onDismissed: (direction) {
+                  if (direction == DismissDirection.endToStart) {
+                    String name = nameSource[index];
+
+                    setState(() {
+                      nameSource.removeAt(index);
+                    });
+                    ScaffoldMessenger
+                      .of(context)
+                      .showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            '${name} deleted.',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontFamily: 'NotoSans',
+                              fontSize: 24.0,
+                            ),
+                          )
+                        )
+                      );
+                  } else if (direction == DismissDirection.startToEnd) {
+                    String name = nameSource[index];
+                    const String baseUrl = 'https://ptsv2.com/t/dkz4n-1618189548/post';
+                    var payload = { name: name };
+                    var response = http.post(baseUrl, body: payload);
+
+                    setState(() {
+                      nameSource.removeAt(index);
+                      _savedNames.add(name);
+                    });
+                    ScaffoldMessenger
+                      .of(context)
+                      .showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            '${name} saved to server.',
+                            style: TextStyle(
+                              color: Colors.lightGreen,
+                              fontFamily: 'NotoSans',
+                              fontSize: 24.0,
+                            ),
+                          )
+                        )
+                      );
+                  }
+                },
+              ),
+              onTap: () {
+                Clipboard.setData(new ClipboardData(text: nameSource[index]));
+              },
+            );
         },
         itemCount: nameSource.length,
       ),
