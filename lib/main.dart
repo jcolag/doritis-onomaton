@@ -248,6 +248,20 @@ class _NameGiverState extends State<NameGiverHome> {
               ),
               onTap: () {
                 Clipboard.setData(new ClipboardData(text: nameSource[index]));
+                ScaffoldMessenger
+                  .of(context)
+                  .showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        '${nameSource[index]} copied to clipboard.',
+                        style: TextStyle(
+                          color: Colors.lightBlue,
+                          fontFamily: 'NotoSans',
+                          fontSize: 24.0,
+                        ),
+                      )
+                    )
+                  );
               },
             ) :
             GestureDetector(
@@ -314,6 +328,20 @@ class _NameGiverState extends State<NameGiverHome> {
               ),
               onTap: () {
                 Clipboard.setData(new ClipboardData(text: nameSource[index]));
+                ScaffoldMessenger
+                  .of(context)
+                  .showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        '${nameSource[index]} copied to clipboard.',
+                        style: TextStyle(
+                          color: Colors.lightBlue,
+                          fontFamily: 'NotoSans',
+                          fontSize: 24.0,
+                        ),
+                      )
+                    )
+                  );
               },
             );
         },
