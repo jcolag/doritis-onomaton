@@ -149,19 +149,22 @@ class _NameGiverState extends State<NameGiverHome> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
-          DropdownButton<String>(
-            value: _chosenLanguage,
-            items: vowels.keys.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (String value) {
-              setState(() {
-                _chosenLanguage = value;
-              });
-            },
+          Container(
+            child: DropdownButton<String>(
+              value: _chosenLanguage,
+              items: vowels.keys.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String value) {
+                setState(() {
+                  _chosenLanguage = value;
+                });
+              },
+            ),
+            margin: EdgeInsets.only(right:30.0),
           ),
           PopupMenuButton<int>(
             itemBuilder: (context) => [
