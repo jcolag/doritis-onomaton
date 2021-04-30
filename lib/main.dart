@@ -241,8 +241,9 @@ class _NameGiverState extends State<NameGiverHome> {
             GestureDetector(
               child: ListTile(
                 title: Text(
-                  nameSource[index],
+                  '🔒 ${nameSource[index]}',
                   style: TextStyle(
+                    color: Colors.green[900],
                     fontSize: 48.0,
                     height: 1.6,
                   ),
