@@ -238,7 +238,7 @@ class _NameGiverState extends State<NameGiverHome> {
         controller: _scrollController,
         itemBuilder: (context, index) {
           return _showSaved ?
-            GestureDetector(
+            InkWell(
               child: ListTile(
                 title: Text(
                   '🔒 ${nameSource[index]}',
@@ -268,7 +268,7 @@ class _NameGiverState extends State<NameGiverHome> {
                   );
               },
             ) :
-            GestureDetector(
+            InkWell(
               child: Dismissible(
                 background: Container(color: Colors.lightBlue),
                 child: ListTile(
