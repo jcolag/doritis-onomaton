@@ -351,26 +351,28 @@ class _NameGiverState extends State<NameGiverHome> {
         },
         itemCount: nameSource.length,
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: _removeName,
-            tooltip: 'Forget Last Name',
-            child: Icon(Icons.not_interested),
-          ),
-          FloatingActionButton(
-            onPressed: _replaceName,
-            tooltip: 'Replace Last Name',
-            child: Icon(Icons.refresh_sharp),
-          ),
-          FloatingActionButton(
-            onPressed: _addName,
-            tooltip: 'Add New Name',
-            child: Icon(Icons.add),
-          ),
-        ],
-      ),
+      floatingActionButton: _showSaved ?
+        Row() :
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: _removeName,
+              tooltip: 'Forget Last Name',
+              child: Icon(Icons.not_interested),
+            ),
+            FloatingActionButton(
+              onPressed: _replaceName,
+              tooltip: 'Replace Last Name',
+              child: Icon(Icons.refresh_sharp),
+            ),
+            FloatingActionButton(
+              onPressed: _addName,
+              tooltip: 'Add New Name',
+              child: Icon(Icons.add),
+            ),
+          ],
+        ),
     );
   }
 }
