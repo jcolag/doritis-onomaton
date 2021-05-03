@@ -318,7 +318,7 @@ class _NameGiverState extends State<NameGiverHome> {
                       .showSnackBar(
                         SnackBar(
                           content: Text(
-                            '${name} saved to server.',
+                            '🔒 ${name} saved to server.',
                             style: TextStyle(
                               color: Colors.lightGreen,
                               fontFamily: 'NotoSans',
