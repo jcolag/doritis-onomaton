@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -195,6 +196,23 @@ class _NameGiverState extends State<NameGiverHome> {
                 ),
               ),
               PopupMenuItem(
+                child: TextButton(
+                  child: Text(
+                    'Activate This Device',
+                    style: TextStyle(
+                      color: Colors.black,
+                    )
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    const String baseUrl = 'http://localhost:3000/activations/new.json';
+                    var gotten = http.get(Uri.parse(baseUrl));
+
+                    gotten.then((r) => this.showValidationCode(r));
+                  },
+                ),
+              ),
+              PopupMenuItem(
                 child:  TextButton(
                   child: Text(
                     'About ${widget.title}',
@@ -373,6 +391,39 @@ class _NameGiverState extends State<NameGiverHome> {
             ),
           ],
         ),
+    );
+  }
+
+  void showValidationCode(httpResponse) {
+    var resp = json.decode(httpResponse.body);
+
+    showAboutDialog(
+      context: context,
+      applicationIcon: FlutterLogo(),
+      applicationName: 'Activate ' + widget.title,
+      // applicationVersion: '1.0.0',
+      // applicationLegalese: '',
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 15),
+          child: Text(
+            resp['code'],
+            style: TextStyle(
+              fontSize: 48.0,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 15),
+          child: Text('Visit https://onomaton.club/activate'),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 15),
+          child: Text(
+            'and enter the code now.'
+          ),
+        ),
+      ],
     );
   }
 }
