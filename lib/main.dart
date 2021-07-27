@@ -9,6 +9,7 @@ import 'alphabets.dart' as alphabets;
 
 const consonants = alphabets.consonants;
 const vowels = alphabets.vowels;
+const server = 'http://localhost:3000/';
 var random = Random();
 
 void main() {
@@ -205,7 +206,7 @@ class _NameGiverState extends State<NameGiverHome> {
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                    const String baseUrl = 'http://localhost:3000/activations/new.json';
+                    const String baseUrl = '${server}activations/new.json';
                     var gotten = http.get(Uri.parse(baseUrl));
 
                     gotten.then((r) => this.showValidationCode(r));
@@ -323,8 +324,8 @@ class _NameGiverState extends State<NameGiverHome> {
                       );
                   } else if (direction == DismissDirection.startToEnd) {
                     String name = nameSource[index];
-                    const String baseUrl = 'https://ptsv2.com/t/dkz4n-1618189548/post';
-                    var payload = { name: name };
+                    const String baseUrl = '${server}names.json?apiKey=RBY15BK5HWMCIAEPBBH6F7WW9CFY0UZIEPGJ7YHTCSW0CR3I';
+                    var payload = { 'name': name };
                     var response = http.post(baseUrl, body: payload);
 
                     setState(() {
@@ -415,7 +416,7 @@ class _NameGiverState extends State<NameGiverHome> {
         ),
         Padding(
           padding: EdgeInsets.only(top: 15),
-          child: Text('Visit https://onomaton.club/activate'),
+          child: Text('Visit ${server}activate'),
         ),
         Padding(
           padding: EdgeInsets.only(top: 15),
