@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import "package:unorm_dart/unorm_dart.dart" as unorm;
+import 'package:unorm_dart/unorm_dart.dart' as unorm;
 
 import 'alphabets.dart' as alphabets;
 
