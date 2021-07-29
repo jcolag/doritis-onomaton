@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:unorm_dart/unorm_dart.dart' as unorm;
 
@@ -12,8 +15,15 @@ const vowels = alphabets.vowels;
 const server = 'http://localhost:3000/';
 var random = Random();
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(NameGiver());
+}
+
+class Preferences extends GetxController {
+  final storage = GetStorage();
+  String get apiKey => storage.read('apiKey') ?? '';
+  void newApiKey(String val) => storage.write('apiKey', val);
 }
 
 class NameGiver extends StatelessWidget {
@@ -46,6 +56,7 @@ class _NameGiverState extends State<NameGiverHome> {
   String _chosenLanguage = 'Latin';
   List<String> _names = [];
   List<String> _savedNames = [];
+  final prefController = Get.put(Preferences());
 
   void _scrollToEnd() async {
     _scrollController.animateTo(
@@ -323,8 +334,9 @@ class _NameGiverState extends State<NameGiverHome> {
                         )
                       );
                   } else if (direction == DismissDirection.startToEnd) {
+                    String key = this.prefController.apiKey;
                     String name = nameSource[index];
-                    const String baseUrl = '${server}names.json?apiKey=RBY15BK5HWMCIAEPBBH6F7WW9CFY0UZIEPGJ7YHTCSW0CR3I';
+                    String baseUrl = '${server}names.json?apiKey=${key}';
                     var payload = { 'name': name };
                     var response = http.post(baseUrl, body: payload);
 
