@@ -283,13 +283,7 @@ const consonants = {
   ],
 };
 const vowels = {
-  'Latin': [
-    'a',
-    'e',
-    'i',
-    'o',
-    'u'
-  ],
+  'Latin': ['a', 'e', 'i', 'o', 'u'],
   'Cyrillic': [
     'а',
     'е',
@@ -421,4 +415,3 @@ const vowels = {
     'ঔ',
   ],
 };
-

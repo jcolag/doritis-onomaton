@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -59,11 +58,8 @@ class _NameGiverState extends State<NameGiverHome> {
   final prefController = Get.put(Preferences());
 
   void _scrollToEnd() async {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: Duration(milliseconds: 200),
-      curve: Curves.easeInOut
-    );
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
     _needsScroll = false;
   }
 
@@ -98,15 +94,12 @@ class _NameGiverState extends State<NameGiverHome> {
     String name = '';
 
     while (random.nextDouble() < done || name.length < 3) {
-      String onset = consonants[_chosenLanguage][
-        random.nextInt(consonants[_chosenLanguage].length)
-      ];
-      String nucleus = vowels[_chosenLanguage][
-        random.nextInt(vowels[_chosenLanguage].length)
-      ];
-      String coda = consonants[_chosenLanguage][
-        random.nextInt(consonants[_chosenLanguage].length)
-      ];
+      String onset = consonants[_chosenLanguage]
+          [random.nextInt(consonants[_chosenLanguage].length)];
+      String nucleus = vowels[_chosenLanguage]
+          [random.nextInt(vowels[_chosenLanguage].length)];
+      String coda = consonants[_chosenLanguage]
+          [random.nextInt(consonants[_chosenLanguage].length)];
 
       if (random.nextInt(2) == 0) {
         name += onset;
@@ -128,17 +121,12 @@ class _NameGiverState extends State<NameGiverHome> {
         var index = 1 + random.nextInt(name.length - 1);
         var est = random.nextInt(97);
         var mark = est < 70
-          ? 0x0300 + random.nextInt(0x0070)
-          : 0x1DC0 + random.nextInt(0x0027);
+            ? 0x0300 + random.nextInt(0x0070)
+            : 0x1DC0 + random.nextInt(0x0027);
 
-        name = unorm.nfc(
-          unorm.nfd(name)
-            .replaceRange(
-              index, index, unorm.nfd(
-                String.fromCharCode(mark)
-              )
-            )
-          );
+        name = unorm.nfc(unorm
+            .nfd(name)
+            .replaceRange(index, index, unorm.nfd(String.fromCharCode(mark))));
         diacritical *= 0.67;
       }
     }
@@ -151,9 +139,7 @@ class _NameGiverState extends State<NameGiverHome> {
     List<String> nameSource;
 
     if (_needsScroll) {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) => _scrollToEnd()
-      );
+      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToEnd());
     }
 
     nameSource = _showSaved ? _savedNames : _names;
@@ -177,7 +163,7 @@ class _NameGiverState extends State<NameGiverHome> {
                 });
               },
             ),
-            margin: EdgeInsets.only(right:30.0),
+            margin: EdgeInsets.only(right: 30.0),
           ),
           PopupMenuButton<int>(
             itemBuilder: (context) => [
@@ -209,12 +195,10 @@ class _NameGiverState extends State<NameGiverHome> {
               ),
               PopupMenuItem(
                 child: TextButton(
-                  child: Text(
-                    'Activate This Device',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )
-                  ),
+                  child: Text('Activate This Device',
+                      style: TextStyle(
+                        color: Colors.black,
+                      )),
                   onPressed: () {
                     Navigator.pop(context);
                     const String baseUrl = '${server}activations/new.json';
@@ -225,13 +209,11 @@ class _NameGiverState extends State<NameGiverHome> {
                 ),
               ),
               PopupMenuItem(
-                child:  TextButton(
-                  child: Text(
-                    'About ${widget.title}',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )
-                  ),
+                child: TextButton(
+                  child: Text('About ${widget.title}',
+                      style: TextStyle(
+                        color: Colors.black,
+                      )),
                   onPressed: () {
                     Navigator.pop(context);
                     showAboutDialog(
@@ -247,13 +229,13 @@ class _NameGiverState extends State<NameGiverHome> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 15),
-                          child: Text('Source code available under the GPLv3 at'),
+                          child:
+                              Text('Source code available under the GPLv3 at'),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 15),
                           child: Text(
-                            'https://github.com/jcolag/doritis-onomaton'
-                          ),
+                              'https://github.com/jcolag/doritis-onomaton'),
                         ),
                       ],
                     );
@@ -267,143 +249,123 @@ class _NameGiverState extends State<NameGiverHome> {
       body: ListView.builder(
         controller: _scrollController,
         itemBuilder: (context, index) {
-          return _showSaved ?
-            InkWell(
-              child: ListTile(
-                title: Text(
-                  '🔒 ${nameSource[index]}',
-                  style: TextStyle(
-                    color: Colors.green[900],
-                    fontSize: 48.0,
-                    height: 1.6,
-                  ),
-                  textAlign: TextAlign.center,
-                )
-              ),
-              onTap: () {
-                Clipboard.setData(new ClipboardData(text: nameSource[index]));
-                ScaffoldMessenger
-                  .of(context)
-                  .showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        '${nameSource[index]} copied to clipboard.',
-                        style: TextStyle(
-                          color: Colors.lightBlue,
-                          fontFamily: 'NotoSans',
-                          fontSize: 24.0,
-                        ),
-                      )
-                    )
-                  );
-              },
-            ) :
-            InkWell(
-              child: Dismissible(
-                background: Container(color: Colors.lightBlue),
-                child: ListTile(
-                  title: Text(
-                    nameSource[index],
+          return _showSaved
+              ? InkWell(
+                  child: ListTile(
+                      title: Text(
+                    '🔒 ${nameSource[index]}',
                     style: TextStyle(
+                      color: Colors.green[900],
                       fontSize: 48.0,
                       height: 1.6,
                     ),
                     textAlign: TextAlign.center,
-                  )
-                ),
-                key: Key(nameSource[index]),
-                onDismissed: (direction) {
-                  if (direction == DismissDirection.endToStart) {
-                    String name = nameSource[index];
+                  )),
+                  onTap: () {
+                    Clipboard.setData(
+                        new ClipboardData(text: nameSource[index]));
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                      '${nameSource[index]} copied to clipboard.',
+                      style: TextStyle(
+                        color: Colors.lightBlue,
+                        fontFamily: 'NotoSans',
+                        fontSize: 24.0,
+                      ),
+                    )));
+                  },
+                )
+              : InkWell(
+                  child: Dismissible(
+                    background: Container(color: Colors.lightBlue),
+                    child: ListTile(
+                        title: Text(
+                      nameSource[index],
+                      style: TextStyle(
+                        fontSize: 48.0,
+                        height: 1.6,
+                      ),
+                      textAlign: TextAlign.center,
+                    )),
+                    key: Key(nameSource[index]),
+                    onDismissed: (direction) {
+                      if (direction == DismissDirection.endToStart) {
+                        String name = nameSource[index];
 
-                    setState(() {
-                      nameSource.removeAt(index);
-                    });
-                    ScaffoldMessenger
-                      .of(context)
-                      .showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${name} deleted.',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontFamily: 'NotoSans',
-                              fontSize: 24.0,
-                            ),
-                          )
-                        )
-                      );
-                  } else if (direction == DismissDirection.startToEnd) {
-                    String key = this.prefController.apiKey;
-                    String name = nameSource[index];
-                    String baseUrl = '${server}names.json?apiKey=${key}';
-                    var payload = { 'name': name };
-                    var response = http.post(baseUrl, body: payload);
+                        setState(() {
+                          nameSource.removeAt(index);
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                          '$name deleted.',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontFamily: 'NotoSans',
+                            fontSize: 24.0,
+                          ),
+                        )));
+                      } else if (direction == DismissDirection.startToEnd) {
+                        String key = this.prefController.apiKey;
+                        String name = nameSource[index];
+                        String baseUrl = '${server}names.json?apiKey=$key';
+                        var payload = {'name': name};
 
-                    setState(() {
-                      nameSource.removeAt(index);
-                      _savedNames.add(name);
-                    });
-                    ScaffoldMessenger
-                      .of(context)
-                      .showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '🔒 ${name} saved to server.',
-                            style: TextStyle(
-                              color: Colors.lightGreen,
-                              fontFamily: 'NotoSans',
-                              fontSize: 24.0,
-                            ),
-                          )
-                        )
-                      );
-                  }
-                },
-              ),
-              onTap: () {
-                Clipboard.setData(new ClipboardData(text: nameSource[index]));
-                ScaffoldMessenger
-                  .of(context)
-                  .showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        '${nameSource[index]} copied to clipboard.',
-                        style: TextStyle(
-                          color: Colors.lightBlue,
-                          fontFamily: 'NotoSans',
-                          fontSize: 24.0,
-                        ),
-                      )
-                    )
-                  );
-              },
-            );
+                        http.post(baseUrl, body: payload);
+                        setState(() {
+                          nameSource.removeAt(index);
+                          _savedNames.add(name);
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                          '🔒 $name saved to server.',
+                          style: TextStyle(
+                            color: Colors.lightGreen,
+                            fontFamily: 'NotoSans',
+                            fontSize: 24.0,
+                          ),
+                        )));
+                      }
+                    },
+                  ),
+                  onTap: () {
+                    Clipboard.setData(
+                        new ClipboardData(text: nameSource[index]));
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                      '${nameSource[index]} copied to clipboard.',
+                      style: TextStyle(
+                        color: Colors.lightBlue,
+                        fontFamily: 'NotoSans',
+                        fontSize: 24.0,
+                      ),
+                    )));
+                  },
+                );
         },
         itemCount: nameSource.length,
       ),
-      floatingActionButton: _showSaved ?
-        Row() :
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-              onPressed: _removeName,
-              tooltip: 'Forget Last Name',
-              child: Icon(Icons.not_interested),
+      floatingActionButton: _showSaved
+          ? Row()
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  onPressed: _removeName,
+                  tooltip: 'Forget Last Name',
+                  child: Icon(Icons.not_interested),
+                ),
+                FloatingActionButton(
+                  onPressed: _replaceName,
+                  tooltip: 'Replace Last Name',
+                  child: Icon(Icons.refresh_sharp),
+                ),
+                FloatingActionButton(
+                  onPressed: _addName,
+                  tooltip: 'Add New Name',
+                  child: Icon(Icons.add),
+                ),
+              ],
             ),
-            FloatingActionButton(
-              onPressed: _replaceName,
-              tooltip: 'Replace Last Name',
-              child: Icon(Icons.refresh_sharp),
-            ),
-            FloatingActionButton(
-              onPressed: _addName,
-              tooltip: 'Add New Name',
-              child: Icon(Icons.add),
-            ),
-          ],
-        ),
     );
   }
 
@@ -432,9 +394,7 @@ class _NameGiverState extends State<NameGiverHome> {
         ),
         Padding(
           padding: EdgeInsets.only(top: 15),
-          child: Text(
-            'and enter the code now.'
-          ),
+          child: Text('and enter the code now.'),
         ),
       ],
     );
