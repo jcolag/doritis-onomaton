@@ -372,6 +372,12 @@ class _NameGiverState extends State<NameGiverHome> {
   void showValidationCode(httpResponse) {
     var resp = json.decode(httpResponse.body);
 
+    if (resp['result'] != 'ok') {
+      Preferences prefs = new Preferences();
+      prefs.newApiKey(resp['result']);
+      return;
+    }
+
     showAboutDialog(
       context: context,
       applicationIcon: FlutterLogo(),
@@ -395,6 +401,23 @@ class _NameGiverState extends State<NameGiverHome> {
         Padding(
           padding: EdgeInsets.only(top: 15),
           child: Text('and enter the code now.'),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 15),
+          child: TextButton(
+            child: Text('Refresh Status',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24.0,
+                )),
+            onPressed: () {
+              Navigator.pop(context);
+              var baseUrl = '${server}activations/verify.json?code=${resp["code"]}';
+              var gotten = http.get(Uri.parse(baseUrl));
+
+              gotten.then((r) => this.showValidationCode(r));
+            },
+          ),
         ),
       ],
     );
