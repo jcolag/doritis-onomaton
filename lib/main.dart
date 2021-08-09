@@ -412,7 +412,8 @@ class _NameGiverState extends State<NameGiverHome> {
                 )),
             onPressed: () {
               Navigator.pop(context);
-              var baseUrl = '${server}activations/verify.json?code=${resp["code"]}';
+              var baseUrl =
+                  '${server}activations/verify.json?code=${resp["code"]}';
               var gotten = http.get(Uri.parse(baseUrl));
 
               gotten.then((r) => this.showValidationCode(r));
