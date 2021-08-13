@@ -40,7 +40,7 @@ class NameGiver extends StatelessWidget {
 }
 
 class NameGiverHome extends StatefulWidget {
-  NameGiverHome({Key key, this.title}) : super(key: key);
+  NameGiverHome({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -92,14 +92,13 @@ class _NameGiverState extends State<NameGiverHome> {
   String _generateName() {
     double done = 1;
     String name = '';
+    List<String> c = consonants[_chosenLanguage] ?? [];
+    List<String> v = vowels[_chosenLanguage] ?? [];
 
     while (random.nextDouble() < done || name.length < 3) {
-      String onset = consonants[_chosenLanguage]
-          [random.nextInt(consonants[_chosenLanguage].length)];
-      String nucleus = vowels[_chosenLanguage]
-          [random.nextInt(vowels[_chosenLanguage].length)];
-      String coda = consonants[_chosenLanguage]
-          [random.nextInt(consonants[_chosenLanguage].length)];
+      String onset = c[random.nextInt(c.length)];
+      String nucleus = v[random.nextInt(v.length)];
+      String coda = c[random.nextInt(c.length)];
 
       if (random.nextInt(2) == 0) {
         name += onset;
@@ -139,7 +138,7 @@ class _NameGiverState extends State<NameGiverHome> {
     List<String> nameSource;
 
     if (_needsScroll) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToEnd());
+      WidgetsBinding.instance?.addPostFrameCallback((_) => _scrollToEnd());
     }
 
     nameSource = _showSaved ? _savedNames : _names;
@@ -157,9 +156,9 @@ class _NameGiverState extends State<NameGiverHome> {
                   child: Text(value),
                 );
               }).toList(),
-              onChanged: (String value) {
+              onChanged: (String? value) {
                 setState(() {
-                  _chosenLanguage = value;
+                  _chosenLanguage = value ?? 'Latin';
                 });
               },
             ),
@@ -307,7 +306,7 @@ class _NameGiverState extends State<NameGiverHome> {
                       } else if (direction == DismissDirection.startToEnd) {
                         String key = this.prefController.apiKey;
                         String name = nameSource[index];
-                        String baseUrl = '${server}names.json?apiKey=$key';
+                        Uri baseUrl = Uri.parse('${server}names.json?apiKey=$key');
                         var payload = {'name': name};
 
                         http.post(baseUrl, body: payload);
