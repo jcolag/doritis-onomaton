@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unorm_dart/unorm_dart.dart' as unorm;
 
 import 'alphabets.dart' as alphabets;
@@ -15,14 +14,7 @@ const server = 'http://localhost:3000/';
 var random = Random();
 
 void main() async {
-  await GetStorage.init();
   runApp(NameGiver());
-}
-
-class Preferences extends GetxController {
-  final storage = GetStorage();
-  String get apiKey => storage.read('apiKey') ?? '';
-  void newApiKey(String val) => storage.write('apiKey', val);
 }
 
 class NameGiver extends StatelessWidget {
@@ -55,7 +47,19 @@ class _NameGiverState extends State<NameGiverHome> {
   String _chosenLanguage = 'Latin';
   List<String> _names = [];
   List<String> _savedNames = [];
-  final prefController = Get.put(Preferences());
+  SharedPreferences? preferences;
+
+  @override
+  void initState() {
+    super.initState();
+    initializePreference().whenComplete((){
+      setState(() {});
+    });
+  }
+
+  Future<void> initializePreference() async{
+    this.preferences = await SharedPreferences.getInstance();
+  }
 
   void _scrollToEnd() async {
     _scrollController.animateTo(_scrollController.position.maxScrollExtent,
@@ -304,7 +308,7 @@ class _NameGiverState extends State<NameGiverHome> {
                           ),
                         )));
                       } else if (direction == DismissDirection.startToEnd) {
-                        String key = this.prefController.apiKey;
+                        String key = this.preferences?.getString('apiKey') ?? '';
                         String name = nameSource[index];
                         Uri baseUrl = Uri.parse('${server}names.json?apiKey=$key');
                         var payload = {'name': name};
@@ -372,8 +376,9 @@ class _NameGiverState extends State<NameGiverHome> {
     var resp = json.decode(httpResponse.body);
 
     if (resp['result'] != 'ok') {
-      Preferences prefs = new Preferences();
-      prefs.newApiKey(resp['result']);
+      setState(() {
+        this.preferences?.setString('apiKey', resp['result']);
+      });
       return;
     }
 
@@ -381,8 +386,6 @@ class _NameGiverState extends State<NameGiverHome> {
       context: context,
       applicationIcon: FlutterLogo(),
       applicationName: 'Activate ' + widget.title,
-      // applicationVersion: '1.0.0',
-      // applicationLegalese: '',
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 15),
