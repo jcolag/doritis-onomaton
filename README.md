@@ -1,4 +1,5 @@
 # doritis-onomaton
+
 The Giver of (Useless) Names (in Flutter)
 
 **Doritís Onomáton** ("The Giver of Names") is a throwaway experiment in [Dart](https://dart.dev/) and [Flutter](https://flutter.dev/).  Because an app should probably do *something*, this one generates a series of fake names based on syllable patterns.
@@ -34,4 +35,6 @@ I created the algorithm (such as it is) for an unrelated project where I wanted 
  * The name is more likely to end the longer it gets, but doesn't have a maximum length.
 
 I have some features in mind for the app that I'll discuss here as I add them.
+
+Current versions can save the names to a [**Fýlakas Onomáton**](https://github.com/jcolag/fylakas-onomaton) server, after activation.
 
