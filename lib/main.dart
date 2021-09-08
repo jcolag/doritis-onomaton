@@ -11,7 +11,7 @@ import 'alphabets.dart' as alphabets;
 
 const consonants = alphabets.consonants;
 const vowels = alphabets.vowels;
-const server = 'http://localhost:3000/';
+const server = 'http://onomaton.club/';
 var random = Random();
 
 void main() async {
