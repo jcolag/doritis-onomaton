@@ -321,7 +321,7 @@ class _NameGiverState extends State<NameGiverHome> {
                         });
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(
-                          '🔒 $name saved to server.',
+                          '🔒 Saving $name to server.',
                           style: TextStyle(
                             color: Colors.lightGreen,
                             fontFamily: 'NotoSans',
