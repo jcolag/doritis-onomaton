@@ -203,9 +203,49 @@ class _NameGiverState extends State<NameGiverHome> {
                       style: TextStyle(
                         color: Colors.black,
                       )),
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.pop(context);
-                    const String baseUrl = '${server}activations/new.json';
+                    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+                    var deviceData = <String, dynamic>{};
+                    var android = <String, dynamic>{};
+                    var ios = <String, dynamic>{};
+                    var linux = <String, dynamic>{};
+                    var mac = <String, dynamic>{};
+                    var web = <String, dynamic>{};
+                    var windows = <String, dynamic>{};
+                    try {
+                      android =
+                          _readAndroidBuildData(await deviceInfo.androidInfo);
+                    } catch (e) {}
+                    try {
+                      ios = _readIosDeviceInfo(await deviceInfo.iosInfo);
+                    } catch (e) {}
+                    try {
+                      linux = _readLinuxDeviceInfo(await deviceInfo.linuxInfo);
+                    } catch (e) {}
+                    try {
+                      mac = _readMacOsDeviceInfo(await deviceInfo.macOsInfo);
+                    } catch (e) {}
+                    try {
+                      web =
+                          _readWebBrowserInfo(await deviceInfo.webBrowserInfo);
+                    } catch (e) {}
+                    try {
+                      windows =
+                          _readWindowsDeviceInfo(await deviceInfo.windowsInfo);
+                    } catch (e) {}
+
+                    String device = json.encode({
+                      'android': android,
+                      'browser': web,
+                      'ios': ios,
+                      'linux': linux,
+                      'mac': mac,
+                      'windows': windows,
+                    });
+
+                    String baseUrl =
+                        '${server}activations/new.json?device=${device}';
                     var gotten = http.get(Uri.parse(baseUrl));
 
                     gotten.then((r) => this.showValidationCode(r));
