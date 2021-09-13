@@ -53,12 +53,12 @@ class _NameGiverState extends State<NameGiverHome> {
   @override
   void initState() {
     super.initState();
-    initializePreference().whenComplete((){
+    initializePreference().whenComplete(() {
       setState(() {});
     });
   }
 
-  Future<void> initializePreference() async{
+  Future<void> initializePreference() async {
     this.preferences = await SharedPreferences.getInstance();
   }
 
@@ -349,9 +349,11 @@ class _NameGiverState extends State<NameGiverHome> {
                           ),
                         )));
                       } else if (direction == DismissDirection.startToEnd) {
-                        String key = this.preferences?.getString('apiKey') ?? '';
+                        String key =
+                            this.preferences?.getString('apiKey') ?? '';
                         String name = nameSource[index];
-                        Uri baseUrl = Uri.parse('${server}names.json?apiKey=$key');
+                        Uri baseUrl =
+                            Uri.parse('${server}names.json?apiKey=$key');
                         var payload = {'name': name};
 
                         http.post(baseUrl, body: payload);
